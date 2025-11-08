@@ -165,6 +165,13 @@ npm test
 
 ---
 
+## Tela da aplicacao
+
+![alt text](image.png)
+
+---
+
+
 ## 🏁 Conclusão
 
 O **Product Management Frontend** é um painel Angular moderno, rápido e desacoplado da API, podendo ser facilmente integrado a qualquer backend RESTful. 
