@@ -1,0 +1,24 @@
+<table class="events-table" *ngIf="events.length; else emptyEvents">
+  <thead>
+    <tr>
+      <th>Tipo</th>
+      <th>Nome</th>
+      <th>Categoria</th>
+      <th>Custo Unitário</th>
+      <th>Data do Evento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let e of events">
+      <td>{{ e.eventType }}</td>
+      <td>{{ e.name }}</td>
+      <td>{{ e.category }}</td>
+      <td>{{ e.unitCost | currency:'BRL':'symbol':'1.2-2' }}</td>
+      <td>{{ e.occurredAt | date:'short' }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #emptyEvents>
+  <p>Não há eventos para este produto ainda.</p>
+</ng-template>

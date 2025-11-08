@@ -1,0 +1,28 @@
+<div class="products-page">
+  <h1>Gestão de Produtos</h1>
+
+  <section class="products-page__form">
+    <h2>
+      {{ selectedProduct() ? 'Editar Produto' : 'Novo Produto' }}
+    </h2>
+
+    <app-product-form
+      [product]="selectedProduct()"
+      (saved)="onProductSaved()"
+      (cancelEdit)="onCancelEdit()"
+    ></app-product-form>
+  </section>
+
+  <section class="products-page__list">
+    <div class="products-page__list-header">
+      <h2>Produtos cadastrados</h2>
+      <span *ngIf="loading()">Carregando...</span>
+    </div>
+
+    <app-products-table
+      [products]="products()"
+      (select)="onSelectProduct($event)"
+      (delete)="onDeleteProduct($event)"
+    ></app-products-table>
+  </section>
+</div>

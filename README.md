@@ -1,59 +1,172 @@
-# ProductManagementFrontend
+# 🧩 Product Management Frontend (Angular 17)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.9.
+Este projeto é o **frontend do sistema Product Management**, desenvolvido em **Angular 17** com **Standalone Components** e arquitetura limpa. Ele permite **cadastrar, editar e excluir produtos**, consumindo a API .NET hospedada em outro container ou localmente.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Funcionalidades Principais
 
-```bash
-ng serve
-```
+- ✅ Cadastro de novos produtos
+- ✏️ Edição ao clicar em um item da tabela
+- 🗑️ Exclusão direta de produtos
+- 🔄 Atualização automática da lista
+- 📱 Interface responsiva (Angular + SCSS)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 📁 Estrutura do Projeto
 
 ```bash
-ng generate --help
+product-management-frontend/
+├── src/
+│   ├── app/
+│   │   ├── core/
+│   │   │   └── services/products-api.service.ts   # Comunicação com a API
+│   │   ├── features/
+│   │   │   └── products/
+│   │   │       ├── models/                       # Tipos de dados (Product)
+│   │   │       ├── components/
+│   │   │       │   ├── product-form/             # Formulário de criação/edição
+│   │   │       │   └── products-table/           # Listagem de produtos
+│   │   │       └── products-page/                # Página principal
+│   │   └── app.routes.ts                         # Rotas da aplicação
+│   ├── assets/
+│   ├── styles.scss                               # Estilos globais
+│   └── index.html                                # Ponto de entrada
+├── package.json
+├── angular.json
+└── Dockerfile
 ```
 
-## Building
+---
 
-To build the project run:
+## ⚙️ Pré-Requisitos
+
+- [Node.js 20+](https://nodejs.org)
+- [Angular CLI 17+](https://angular.dev)
+- (opcional) Docker Desktop para buildar a imagem containerizada
+
+---
+
+## 🧠 Configuração da API
+
+O serviço Angular consome a API .NET configurada no arquivo:
+
+`src/app/core/services/products-api.service.ts`
+
+```ts
+private readonly baseUrl = 'http://localhost:5000/api/products';
+```
+
+Se sua API estiver rodando em outra porta (ex: 5000), altere para:
+
+```ts
+private readonly baseUrl = 'http://localhost:5000/api/products';
+```
+
+---
+
+## 🖥️ Rodando Localmente
+
+Instale as dependências e rode o servidor de desenvolvimento:
 
 ```bash
-ng build
+npm install
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Abra o navegador em:
+👉 **http://localhost:4200**
 
-## Running unit tests
+A aplicação recarrega automaticamente a cada alteração.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+---
+
+## 🐳 Rodando com Docker
+
+Você pode buildar e rodar o frontend como container.
+
+### 1️⃣ Build da imagem
 
 ```bash
-ng test
+docker build -t product-management-frontend .
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+### 2️⃣ Rodar o container
 
 ```bash
-ng e2e
+docker run -d -p 4200:80 product-management-frontend
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Acesse em: [http://localhost:4200](http://localhost:4200)
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🧩 Dockerfile (referência)
+
+```Dockerfile
+# Etapa de build
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build -- --output-path=dist
+
+# Etapa de runtime
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+---
+
+## 📦 Build de Produção Manual
+
+Se quiser gerar os artefatos localmente:
+
+```bash
+npm run build
+```
+
+O build será criado em `dist/`.
+
+---
+
+## 🧪 Testes Unitários
+
+Executar testes (Jasmine + Karma):
+
+```bash
+npm test
+```
+
+---
+
+## 💡 Boas Práticas Implementadas
+
+- Angular 17 com **Standalone Components**
+- **Reactive Forms** para validações
+- **Services** para isolamento da lógica de API
+- **Signals** para gerenciamento leve de estado
+- **Clean UI** com SCSS modularizado
+
+---
+
+## 🧭 Fluxo de Uso
+
+1. Usuário acessa `/`
+2. Formulário permite criar novo produto
+3. Lista mostra todos os produtos cadastrados
+4. Clicar em um produto → preenche o formulário para edição
+5. Salvar → atualiza produto existente
+6. Deletar → remove da tabela e recarrega a lista
+
+---
+
+## 🏁 Conclusão
+
+O **Product Management Frontend** é um painel Angular moderno, rápido e desacoplado da API, podendo ser facilmente integrado a qualquer backend RESTful. 
+
+> 🧠 Para subir completo com a API, basta incluir este container no mesmo `docker-compose.yml` da solução backend.

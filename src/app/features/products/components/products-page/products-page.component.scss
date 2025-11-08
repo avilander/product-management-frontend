@@ -1,0 +1,27 @@
+.products-page {
+  max-width: 1200px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  &__form,
+  &__list,
+  &__events {
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: #fff;
+  }
+
+  &__list-header,
+  &__events-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  h1 {
+    text-align: center;
+  }
+}

@@ -1,0 +1,26 @@
+<table class="products-table" *ngIf="products.length; else emptyState">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Categoria</th>
+      <th>Custo Unitário</th>
+      <th>Criado em</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of products" (click)="onSelect(p)">
+      <td>{{ p.name }}</td>
+      <td>{{ p.category }}</td>
+      <td>{{ p.unitCost | currency:'BRL':'symbol':'1.2-2' }}</td>
+      <td>{{ p.createdAt | date:'short' }}</td>
+      <td>
+        <button type="button" (click)="onDelete(p, $event)">Excluir</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #emptyState>
+  <p>Nenhum produto cadastrado ainda.</p>
+</ng-template>
